@@ -1,0 +1,471 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<style media="screen">
+  body{
+    direction: rtl;
+  }
+  .user{
+    width:100%;
+  }
+  .w_65{
+    width:65%;
+  }
+  .w_5{
+    width:5%;
+    text-align: center;
+  }
+  .w_25{
+    width:25%;
+    display:inline-block;
+  }
+  .w_100{
+    width:100%;
+    display:inline-block;
+  }
+
+.form-radio
+{
+  margin:0px !important;
+    -webkit-appearance: none;
+    display: inline-block;
+    position: relative;
+    background-color: #f7f7f7;
+    color: #666;
+    height: 30px;
+    width: 30px;
+    border: 0;
+    border-radius: 50px;
+    cursor: pointer;
+    border: 1px solid;
+    outline: none !important;
+}
+.form-radio:checked::before
+{
+     position: absolute;
+     font: 13px/1 'Open Sans', sans-serif;
+     left: 11px;
+     top: 7px;
+     content: '\02143';
+     transform: rotate(40deg);
+     font-weight: bold;
+}
+.form-radio:hover
+{
+     background-color: #f7f7f7;
+}
+.form-radio:checked
+{
+     background-color: #f7f7f7;
+}
+.top{
+    top: 1rem;
+}
+.questionPart{
+  border-bottom: 1px solid;
+}
+.image{
+  position: relative;
+  height: 57rem;
+  width: 100%;
+}
+.main_image{
+  height: 55rem;
+  width: 33rem;
+}
+.pre_image{
+  width: 8rem;
+  float: right;
+cursor: pointer;
+}
+.next_image{
+  width: 8rem;
+  float: left;
+}
+.next_image{
+  width: 8rem;
+  float: left;
+}
+.finish_image
+{
+  width: 8rem;
+  float: left;
+}
+.move{
+  width: 100%;
+  padding-left: 7rem;
+  padding-right: 7rem;
+}
+.move-image{
+  cursor: pointer;
+}
+.move-image:hover {opacity: 0.7;}
+.Erore{
+  font-size: 3rem;
+  color: red;
+}
+@media only screen and (max-width: 600px) {
+    body{font-size: 1.5rem ;}
+    h3{font-size: 2rem;}
+    .main_image{height: 40rem;}
+    .image{height: 42rem;}
+  }
+</style>
+<div class="image_container" style="width: 100%;text-align: center;">
+</div>
+
+
+
+<div class="Erore" style="display:none">
+יש לבחור תשובה אחת בכל שורה!
+</div>
+<div class="container">
+  <h3 class="Guidelines-fitzar" style="display: none;">
+    התמונה מתארת פיצר אבטחה של תוכנת אבטחה מסויימת, נא לענות על השאלות בהתאם
+  </h3>
+  <h3 class="Guidelines" style="display: none;">
+    התמונה מתארת תוכנת אבטחה מסויימת, נא לענות על השאלות בהתאם
+  </h3>
+  {% if type1%}
+  <table class="table table-striped radio_type">
+      <h3>נא לסמן אחת מהתשובות (1-במידה מועטה 7 - במידה רבה)</h3>
+      <tr class="questionPart">
+        <td class="w_65 type1 questionPart">שאלה</td>
+        {% for answer in answers %}
+          <td class="type1 w_5 questionPart">{{answer}}</td>
+        {% endfor%}
+      </tr>
+      {% for question in questions %}
+        {% if question.type == 1 %}
+        <tr>
+          <td>{{question.question}}</td>
+          {% for answer in answers %}
+          <td class="w_5">
+            <input type="radio" class="form-radio radio-first" name="{{question.id}}" value="{{answer}}">
+          </td>
+          {% endfor %}
+        </tr>
+      {%endif%}
+    {% endfor %}
+  </table>
+  {% endif%}
+  <br>
+  {% if type2%}
+  <table class="table table-striped open_type">
+    <h3>נא לענות על השאלות הבאות</h3>
+    {% for question in questions %}
+      {% if question.type == 2 %}
+        <tr class="questionPart">
+          <td class="w_25 type2">{{question.question}}</td>
+        </tr>
+        <tr>
+          <td class="w_100">
+            <input class="form-control" id="{{question.id}}" name="{{question.id}}" type="text" value="">
+          </td>
+        </tr>
+    {%endif%}
+  {% endfor %}
+  </table>
+  {%endif%}
+
+<br>
+{% if type3 %}
+  <table class="table table-striped american_type">
+    <h3>נא לסמן אחת מהתשובות</h3>
+    {% for question in questions %}
+      {% if question.type == 3 %}
+        <tr class="questionPart">
+          <td style="width:100% type3">{{question.question}}</td>
+        </tr>
+        <tr>
+          <td class="w_100">
+            <input class="form-radio top radio-second" type="radio" name="{{question.id}}" value="{{question.answer1}}"><label>{{question.answer1}}</label>
+          </td>
+        </tr>
+        <tr>
+          <td class="w_100">
+            <input class="form-radio top radio-second" type="radio" name="{{question.id}}" value="{{question.answer2}}"><label>{{question.answer2}}</label>
+          </td>
+        </tr>
+        <tr>
+          <td class="w_100">
+            <input class="form-radio top radio-second" type="radio" name="{{question.id}}" value="{{question.answer3}}"><label>{{question.answer3}}</label>
+          </td>
+        </tr>
+        <tr>
+          <td class="w_100">
+            <input class="form-radio top radio-second" type="radio" name="{{question.id}}" value="{{question.answer4}}"><label>{{question.answer4}}</label>
+          </td>
+        </tr>
+    {%endif%}
+  {% endfor %}
+  </table>
+  {%endif%}
+  <br>
+
+  <div class="container move">
+    <div class="move-image">
+      <img class="next_image" src="/pictures/icons/next.jpg"  style="display:none">
+    </div>
+    <div class="move-image">
+      <img class="pre_image" src="/pictures/icons/pre.jpg" style="display:none">
+    </div>
+    <div class="move-image">
+      <img class="finish_image" src="/pictures/icons/finish.png" style="display:none">
+    </div>
+  </div>
+
+</div>
+  <br>
+    <br>
+
+
+
+<script type="text/javascript">
+
+  function loadImages(imagesAray)
+  {
+    for (var $i = 0 ; $i < imagesAray.length; $i++) {
+      $( ".image_container" ).append('<div style="display:none" class="image_'+$i +'"><img class="main_image" src="'+imagesAray[$i]+'"></div>')
+    }
+  }
+
+
+
+  var $data = {{ data|tojson }}
+  $questionDisplay=$data.questionDisplay
+  $img1=$data.images.picture1
+  $img2=$data.images.picture2
+  $securtyImges=$data.images.securtyImges
+  $corrnetText=""
+  $images=[]
+  $answer=[]
+  $indexImg=0
+  $swichIndex=0
+  // build array for image by $questionDisplay
+  if($questionDisplay==1)
+  {
+    $images.push($img2)
+    for (var i = 0; i < $securtyImges.length; i++) {
+      $images.push($securtyImges[i])
+    }
+    $swichIndex+=1
+    $('.Guidelines').show()
+    $corrnetText='.Guidelines'
+
+    loadImages($images)
+    $('.image_'+$indexImg).show();
+    $('.next_image').show()
+  }
+  else {
+    if($questionDisplay==2)
+    {
+      for (var i = 0; i < $securtyImges.length; i++) {
+        $images.push($securtyImges[i])
+        $swichIndex+=1
+      }
+      $images.push($img2)
+      $('.Guidelines-fitzar').show()
+      $corrnetText='.Guidelines-fitzar'
+      // console.log(($images))
+      loadImages($images)
+      $('.image_'+$indexImg).show();
+      // $('.main_image').attr("src",$images[$indexImg]);
+      $('.next_image').show()
+
+    }
+    else {
+      if($questionDisplay==3)
+      {
+        for (var i = 0; i < $securtyImges.length; i++) {
+          $images.push($securtyImges[i])
+        }
+        $('.Guidelines-fitzar').show()
+        $corrnetText='.Guidelines-fitzar'
+        loadImages($images)
+        $('.image_'+$indexImg).show();
+        // $('.main_image').attr("src",$images[$indexImg]);
+        $('.next_image').show()
+
+      }
+      else {
+        if($questionDisplay==4)
+        {
+          $images.push($img1)
+          $('.Guidelines').show()
+          $corrnetText='.Guidelines'
+          loadImages($images)
+          $('.image_'+$indexImg).show();
+          // $('.main_image').attr("src",$images[$indexImg]);
+          $('.finish_image').show()
+        }
+        else {
+          $images.push($img2)
+          $('.Guidelines').show()
+          $corrnetText='.Guidelines'
+          // $('.main_image').attr("src",$images[$indexImg]);
+          loadImages($images)
+          $('.image_'+$indexImg).show();
+          $('.finish_image').show()
+        }
+      }
+    }
+  }
+
+  function switchText(index)
+  {
+    if(index==$swichIndex)
+    {
+      if($corrnetText=='.Guidelines')
+      {
+        $($corrnetText).hide()
+        $('.Guidelines-fitzar').show()
+        $corrnetText='.Guidelines-fitzar'
+      }
+      else {
+        $($corrnetText).hide()
+        $('.Guidelines').show()
+        $corrnetText='.Guidelines'
+      }
+    }
+  }
+
+  function buildForm(index)
+  {
+     $vals=$answer[index]
+     i=0
+     $radioFirstArry=$('.radio-first').toArray()
+     for (var j = 0; j < $radioFirstArry.length; j+=7)
+     {
+       $($radioFirstArry[j+parseInt($vals[i])-1]).prop('checked', true)
+       i+=1
+     }
+     $formControlArry=$('.form-control').toArray()
+     for (var j = 0; j < $formControlArry.length; j+=1) {
+       $($formControlArry[j]).val($vals[i])
+       i+=1
+     }
+     $radioSecondArry=$('.radio-second').toArray()
+     k=0
+     for (var j = i; j < $vals.length; j+=1) {
+       for (var p = k; p < 4; p++) {
+         if($($radioSecondArry[p]).val()==$vals[j])
+         {
+           $($radioSecondArry[p]).prop('checked', true)
+           k+=p
+         }
+       }
+     }
+  }
+
+  $imagesLen=$images.length;
+
+  $(document).on('click', '.next_image', function()
+  {
+    if($('.radio-first:checked').length !=$('.radio-first').length/7 )
+    {
+      $('.Erore').show(1.5).delay(1000).hide(1);
+      return false;
+    }
+    smallAns=[]
+    $('.radio-first:checked').each(function() {
+       smallAns.push($(this).val());
+     });
+     $('.form-control').each(function() {
+        smallAns.push($(this).val());
+      });
+     $('.radio-second:checked').each(function() {
+        smallAns.push($(this).val());
+      });
+      $answer[$indexImg]=smallAns
+      $('.pre_image').show();
+      $('.image_'+$indexImg).hide();
+      $indexImg+=1;
+      switchText($indexImg)
+      $('.image_'+$indexImg).fadeIn(1000);
+      // $('.main_image').attr("src",$images[$indexImg]);
+      if($indexImg==$imagesLen-1)
+      {
+        $('.next_image').hide();
+        $('.finish_image').show();
+      }
+      $('.form-control').val('');
+      $('.form-radio').prop('checked', false);
+      if($indexImg<=$answer.length-1)
+      {
+         buildForm($indexImg)
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  $(document).on('click', '.pre_image', function()
+  {
+    if($('.radio-first:checked').length !=$('.radio-first').length/7 )
+    {
+      $('.Erore').show(1.5).delay(1000).hide(1);
+      return false;
+    }
+    smallAns=[]
+    $('.radio-first:checked').each(function() {
+       smallAns.push($(this).val());
+     });
+     $('.form-control').each(function() {
+        smallAns.push($(this).val());
+      });
+     $('.radio-second:checked').each(function() {
+        smallAns.push($(this).val());
+      });
+      $answer[$indexImg]=smallAns
+      $('.finish_image').hide();
+      $('.next_image').show();
+      $('.image_'+$indexImg).hide();
+
+      $indexImg-=1;
+      switchText($indexImg+1)
+      $('.image_'+$indexImg).fadeIn(1000);
+
+      // $('.main_image').attr("src",$images[$indexImg]);
+      if($indexImg==0)
+      {
+        $('.pre_image').hide();
+      }
+      $('.form-control').val('');
+      $('.form-radio').prop('checked', false);
+      buildForm($indexImg)
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  $(document).on('click', '.finish_image', function(){
+    if($('.radio-first:checked').length !=$('.radio-first').length/7 )
+    {
+      $('.Erore').show(1.5).delay(1000).hide(1);
+      return false;
+    }
+    smallAns=[]
+    $('.radio-first:checked').each(function() {
+       smallAns.push($(this).val());
+     });
+     $('.form-control').each(function() {
+        smallAns.push($(this).val());
+      });
+     $('.radio-second:checked').each(function() {
+        smallAns.push($(this).val());
+      });
+      $answer[$indexImg]=smallAns
+      $dataSend={}
+      $dataSend['$answer']=$answer
+      $.ajax({
+          url: '/saveReports',
+          dataType: "json",
+          data: $dataSend,
+          type: 'POST',
+          success: function(response)
+          {
+            window.location.replace("/Survey");
+          },
+          error: function(error) {
+              console.log(error);
+          }
+      });
+  });
+
+</script>
+{% endblock %}

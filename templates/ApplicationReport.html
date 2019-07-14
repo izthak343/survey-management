@@ -1,0 +1,185 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<style media="screen">
+  .w_50{
+    width:49%;
+    display: inline-table;  }
+}
+</style>
+  <h1>Application report</h1>
+  <table class="table table-striped">
+    <tr>
+      {% for key, value in Table[0].items() %}
+        {% if key != 'Traditional_summary_old' and key != 'Traditional_summary_new' and key != 'Contextual'%}
+            <td ><b>{{key}}</b></td>
+        {% endif %}
+      {% endfor %}
+      <td ><b>option</b></td>
+
+    </tr>
+    {% for row in Table %}
+    <tr>
+      {% for key, value in row.items() %}
+        {% if key != 'Traditional_summary_old' and key != 'Traditional_summary_new' and key != 'Contextual'%}
+            <td >{{value}}</td>
+        {% else %}
+          {%if  key == 'Traditional_summary_old' %}
+              <td>
+                <a data-appliction={{row['id']}}  class="btn btn-primary btn-sm ">Traditional_summary_old</a>
+                <a data-appliction={{row['id']}} class="btn btn-danger btn-sm">Traditional_summary_new</a>
+                <a data-appliction={{row['id']}} class="btn btn-warning btn-sm">Contextual</a>
+                <a href="/exportAppliction/{{row['id']}}" target="_blank" class="btn btn-success btn-sm" download>Export</a>
+              </td>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </tr>
+    {% endfor %}
+    </table>
+  <br><br>
+
+    {% for keyRow,row in Traditional_summary_old_array.items() %}
+      <div class="Traditional_summary_old_{{keyRow}} myMark" style="display:none;">
+        <div class="left w_50">
+          <table class="table table-striped">
+            <tr>
+              <td><b>privacy</b></td>
+              <td><b>privacy rank</b></td>
+            </tr>
+            {% for key, value in row.items() %}
+              {% if key == 'Privacy'%}
+                {% for internalKey, internalValue in value.items() %}
+                  <tr>
+                    <td>{{internalKey}}</td>
+                    <td>{{internalValue}}</td>
+                  </tr>
+                {% endfor %}
+              {%endif%}
+            {% endfor %}
+          </table>
+        </div>
+        <div class="right w_50 ">
+          <table class="table table-striped">
+            <tr>
+              <td><b>securty</b></td>
+              <td><b>securty rank</b></td>
+            </tr>
+            {% for key, value in row.items() %}
+              {% if key == 'Security'%}
+                {% for internalKey, internalValue in value.items() %}
+                  <tr>
+                    <td>{{internalKey}}</td>
+                    <td>{{internalValue}}</td>
+                  </tr>
+                {% endfor %}
+              {%endif%}
+            {% endfor %}
+          </table>
+        </div>
+
+      </div>
+    {% endfor %}
+
+
+    {% for keyRow,row in Traditional_summary_new_array.items() %}
+      <div class="Traditional_summary_new_{{keyRow}} myMark" style="display:none;">
+        <div class="left w_50">
+          <table class="table table-striped">
+            <tr>
+              <td><b>privacy</b></td>
+              <td><b>privacy rank</b></td>
+            </tr>
+            {% for key, value in row.items() %}
+              {% if key == 'Privacy'%}
+                {% for internalKey, internalValue in value.items() %}
+                  <tr>
+                    <td>{{internalKey}}</td>
+                    <td>{{internalValue}}</td>
+                  </tr>
+                {% endfor %}
+              {%endif%}
+            {% endfor %}
+          </table>
+        </div>
+        <div class="right w_50 ">
+          <table class="table table-striped">
+            <tr>
+              <td><b>securty</b></td>
+              <td><b>securty rank</b></td>
+            </tr>
+            {% for key, value in row.items() %}
+              {% if key == 'Security'%}
+                {% for internalKey, internalValue in value.items() %}
+                  <tr>
+                    <td>{{internalKey}}</td>
+                    <td>{{internalValue}}</td>
+                  </tr>
+                {% endfor %}
+              {%endif%}
+            {% endfor %}
+          </table>
+        </div>
+
+      </div>
+    {% endfor %}
+
+    {% for keyRow,row in Contextual_array.items() %}
+      <div class="Contextual_{{keyRow}} myMark" style="display:none;">
+        {% for key, value in row.items() %}
+        <div>
+          <br>
+          <table class="table table-striped">
+            <tr>
+              <td colspan="3" style="text-align: center;"><b>{{key}}</b></td>
+            </tr>
+            <tr>
+              <td style="text-align: center;"><b>privacy</b></td>
+              <td style="text-align: center;"><b>privacy rank</b></td>
+            </tr>
+            {% for internalKey, internalValue in value.items() %}
+            <tr>
+              <td style="text-align: center;">{{internalKey}}</td>
+              <td style="text-align: center;">{{internalValue}}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+        {% endfor  %}
+      </div>
+    {% endfor %}
+
+    <br><br>
+
+
+    <script type="text/javascript">
+      $(document).on('click', '.btn-primary', function(){
+        $id=$(this).attr('data-appliction').toString()
+        $(".myMark").each(function() {
+          $(this).hide(1000)
+        });
+        $('.Traditional_summary_old_'+$id).show(1000);
+      });
+      $(document).on('click', '.btn-danger', function(){
+        $id=$(this).attr('data-appliction').toString()
+        $(".myMark").each(function() {
+          $(this).hide(1000)
+        });
+        $('.Traditional_summary_new_'+$id).show(1000);
+      });
+      $(document).on('click', '.btn-warning', function(){
+        $id=$(this).attr('data-appliction').toString()
+        $(".myMark").each(function() {
+          $(this).hide(1000)
+        });
+        $('.Contextual_'+$id).show(1000);
+      });
+
+    </script>
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,165 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<style media="screen">
+  label {
+    width:180px;
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <h1>Edit appliction details</h1>
+  <form action="" method="POST">
+    <div class="privacy" style="border-bottom :2px solid black;">
+        <div class="form-group my_mark FactName" >
+          <label> Number of privact facts </label>
+          <input style="display: inline-block;width: 5%;" class="form-control" {% if privacyFacts|length != 0%} disabled=disabled  {% endif %} id="FactNumber" name="FactNumber" type="number" value="{{privacyFacts|length}}">
+          <input style="display: inline-block" class="btn btn-primary btn-Facts " {% if privacyFacts|length != 0%} disabled=disabled {% endif %} type="button" value="ok">
+        </div>
+        {% for privacyFact in privacyFacts%}
+          <div class="form-group " style="width:25%;display: inline-table">
+            <label> Name of privacy feature </label>
+            <input class="form-control" id="FactName" name="FactName" type="text" value="{{privacyFact.name}}">
+            <i class="fa fa-trash fa-trash-first"></i>
+          </div>
+        {% endfor%}
+        <div style="display:inline-block" class="last"></div>
+      <i class="fa fa-plus fa-plus-first" style="font-size:24px; display: inherit;"></i>
+      <div class="form-group FactNum my_mark2" >
+        <label> Number of privact level </label>
+        <input style="display: inline-block;width: 5%;" class="form-control" id="FactNumlevel" name="FactNumlevel" type="number" value="{{rankPrivacies|length}}">
+        <input style="display: inline-block" class="btn btn-primary btn-FactNum " type="button" value="ok">
+      </div>
+        {% for rankPrivacy in rankPrivacies%}
+        <div class="form-group FactNum_imput" style="width:25%;display: inline-table">
+          <label>Name of privacy level</label>
+          <input class="form-control" id="FactNum" name="FactNum" type="text" value="{{rankPrivacy.name}}">
+        </div>
+        {% endfor%}
+      </div>
+    <br>
+
+    <div class="securty">
+      <div class="form-group FizerName my_mark3" >
+        <label>  Number of securty facts </label>
+        <input style="display: inline-block;width: 5%;" class="form-control" {% if securtyFeatures|length != 0%} disabled=disabled  {% endif %} id="FizerNumber" name="FizerNumber" type="number"  value="{{securtyFeatures|length}}">
+        <input style="display: inline-block" class="btn btn-primary btn-Fizer " {% if securtyFeatures|length != 0%} disabled=disabled  {% endif %}  type="button" value="ok">
+      </div>
+      {% for securtyFeature in securtyFeatures%}
+      <div class="form-group " style="width:25%;display: inline-table">
+        <label>Name of securty facts </label>
+        <input class="form-control" id="FizerName" name="FizerName" type="text" value="{{securtyFeature.name}}">
+        <i class="fa fa-trash fa-trash-second"></i>
+      </div>
+      {% endfor%}
+      <div style="display:inline-block" class="last2"></div>
+      <i class="fa fa-plus fa-plus-second" style="font-size:24px; display: inherit;"></i>
+      <div class="form-group FizerNum my_mark4" >
+        <label> Number of privact level </label>
+        <input style="display: inline-block;width: 5%;" class="form-control" id="FizerNumlevel" name="FizerNumlevel" type="number" value="{{rankSecurties|length}}" >
+        <input style="display: inline-block" class="btn btn-primary btn-FizerNum " type="button" value="ok">
+      </div>
+      {% for rankSecurty in rankSecurties%}
+      <div class="form-group FizerNum_imput" style="width:25%;display: inline-table">
+        <label>Name of security level</label>
+        <input class="form-control" id="FizerNum" name="FizerNum" type="text" value="{{rankSecurty.name}}">
+      </div>
+      {% endfor%}
+    </div>
+  <p><input class="btn btn-success pull-right" method="POST" type="submit" value="save"></p>
+
+
+  </form>
+  <script>
+    $(".btn-Facts" ).click(function() {
+      var $value=  $( "#FactNumber" ).val();
+      var $i;
+      for ($i = 0; $i < $value; $i++)
+      {
+        if($i == 0)
+          $('<div class="form-group last1" style="width:25%;display: inline-table"><label> Name of privacy feature </label><input class="form-control" id="FactName" name="FactName" type="text"><i class="fa fa-trash fa-trash-first"></i></div>').insertAfter( ".last" );
+        else
+          $('<div class="form-group" style="width:25%;display: inline-table"><label> Name of privacy feature </label><input class="form-control" id="FactName" name="FactName" type="text"><i class="fa fa-trash fa-trash-first"></i></div>').insertAfter( ".last" );
+        }
+        $('.last').removeClass('last')
+        $('.last1').removeClass('last1').addClass('last')
+        $(this).attr('disabled', 'disabled')
+        $("#FactNumber").attr('disabled', 'disabled')
+      });
+    $(document).on('click', '.fa-trash-first', function(){
+          $(this).closest("div").remove();
+          $('#FactNumber').val($('#FactNumber').val()-1);
+          if($(".last").length==0)
+            {
+              $( ".my_mark" ).addClass("last");
+            }
+      });
+    $('.fa-plus-first').click(function(){
+      $('<div class="form-group last1" style="width:25%;display: inline-table"><label> Name of privacy feature </label><input class="form-control" id="FactName" name="FactName" type="text"><i class="fa fa-trash fa-trash-first"></i></div>').insertAfter( ".last" );
+      $('.last').removeClass('last');
+      $('.last1').removeClass('last1').addClass('last');
+      if ($('#FactNumber').prop('disabled'))
+        $('#FactNumber').val(parseInt($('#FactNumber').val())+1);
+      else
+        $('#FactNumber').val(1);
+      $(".btn-Facts").attr('disabled', 'disabled')
+      $("#FactNumber").attr('disabled', 'disabled')
+    });
+    $(".btn-FactNum" ).click(function() {
+      $( ".FactNum_imput" ).remove();
+      var $value=  $( "#FactNumlevel" ).val();
+      var $i;
+      for ($i = 0; $i < $value; $i++){
+        $('<div class="form-group FactNum_imput" style="width:25%;display: inline-table"><label>Name of privacy level  </label><input class="form-control" id="FactNum" name="FactNum" type="text"></div>').insertAfter( ".my_mark2" );
+        }
+      });
+
+      $(".btn-Fizer" ).click(function() {
+        var $value=  $( "#FizerNumber" ).val();
+        var $i;
+        for ($i = 0; $i < $value; $i++)
+        {
+          if($i == 0)
+            $('<div class="form-group last3" style="width:25%;display: inline-table"><label>Name of securty facts </label><input class="form-control" id="FizerName" name="FizerName" type="text"><i class="fa fa-trash fa-trash-second"></i></div>').insertAfter( ".last2" );
+          else
+            $('<div class="form-group " style="width:25%;display: inline-table"><label>Name of securty facts </label><input class="form-control" id="FizerName" name="FizerName" type="text"><i class="fa fa-trash fa-trash-second"></i></div>').insertAfter( ".last2" );
+          }
+          $('.last2').removeClass('last2')
+          $('.last3').removeClass('last3').addClass('last2')
+          $(this).attr('disabled', 'disabled')
+          $("#FizerNumber").attr('disabled', 'disabled')
+        });
+      $(document).on('click', '.fa-trash-second', function(){
+            $(this).closest("div").remove();
+            $('#FizerNumber').val($('#FizerNumber').val()-1);
+            if($(".last2").length==0)
+              {
+                $( ".my_mark3" ).addClass("last2");
+              }
+        });
+      $('.fa-plus-second').click(function(){
+        $('<div class="form-group last3" style="width:25%;display: inline-table"><label> Name of securty facts </label><input class="form-control" id="FizerName" name="FizerName" type="text"><i class="fa fa-trash fa-trash-second"></i></div>').insertAfter( ".last2" );
+        $('.last2').removeClass('last2');
+        $('.last3').removeClass('last3').addClass('last2');
+        if ($('#FizerNumber').prop('disabled'))
+          $('#FizerNumber').val(parseInt($('#FizerNumber').val())+1);
+        else
+          $('#FizerNumber').val(1);
+        $(".btn-Fizer").attr('disabled', 'disabled')
+        $("#FizerNumber").attr('disabled', 'disabled')
+      });
+      $(".btn-FizerNum" ).click(function() {
+        $( ".FizerNum_imput" ).remove();
+        var $value=  $( "#FizerNumlevel" ).val();
+        var $i;
+        for ($i = 0; $i < $value; $i++){
+          $('<div class="form-group FizerNum_imput" style="width:25%;display: inline-table"><label>Name of security level   </label><input class="form-control" id="FizerNum" name="FizerNum" type="text"></div>').insertAfter( ".my_mark4" );
+          }
+        });
+
+
+
+
+  </script>
+
+
+{% endblock %}

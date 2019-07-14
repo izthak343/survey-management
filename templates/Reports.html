@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1></h1>
+  <table class="table table-striped">
+    <tr>
+      <td >Reports</td>
+      <td >option</td>
+    </tr>
+      <tr>
+        <td>Users</td>
+        <td><a href="UserReport" class="btn btn-success pull-left" method="Get">Show</a></td>
+      </tr>
+      <tr>
+        <td>Applications</td>
+        <td><a href="ApplicationReport" class="btn btn-success pull-left" method="Get">Show</a></td>
+      </tr>
+      <tr>
+        <td>Experiments</td>
+        <td><a href="ExperimentReport" class="btn btn-success pull-left" method="Get">Show</a></td>
+      </tr>
+
+
+    </table>
+
+{% endblock %}

@@ -1,0 +1,206 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<style media="screen">
+  .w_50{
+    width:49%;
+    display: inline-block;
+  }
+  .w_40{
+    width: 40%;
+    display: inline-block;
+  }
+  .border{
+    padding-bottom: 2rem;
+    border-bottom :3px solid black;
+  }
+  body {
+    padding: 30px;
+  }
+  .plus-minus-toggle {
+    cursor: pointer;
+    height: 21px;
+    position: relative;
+    width: 21px;
+    margin-left: 2rem;
+  }
+  .plus-minus-toggle:before,
+  .plus-minus-toggle:after {
+    background: #000;
+    content: "";
+    height: 5px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 21px;
+    transition: transform 500ms ease;
+  }
+  .plus-minus-toggle:after {
+    transform-origin: center;
+  }
+  .plus-minus-toggle.collapsed:after {
+    transform: rotate(90deg);
+  }
+  .plus-minus-toggle.collapsed:before {
+    transform: rotate(180deg);
+  }
+  .show_hide {
+    display:none;
+}
+
+
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<h1>Add appliction</h1>
+{% from "includes/_formhelpers.html" import render_field %}
+<form action="" method="POST" enctype=multipart/form-data>
+  <div class="form-group">
+    {{ render_field(form.realName, class_="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.falseName, class_="form-control") }}
+  </div>
+  <div class="form-group border">
+    <label for="categoryId">Category</label>
+  <select class="form-control" id="categoryId" name="categoryId">
+    <option {% if categoryId == '1' %} selected {% endif %} value="1">בטיחות גבוהה ופרטיות גבוהה</option>
+    <option {% if categoryId == '2' %} selected {% endif %} value="2">בטיחות גבוהה ופרטיות נמוכה</option>
+    <option {% if categoryId == '3' %} selected {% endif %} value="3">בטיחות נמוכה ופרטיות גבוהה</option>
+    <option {% if categoryId == '4' %} selected {% endif %} value="4">בטיחות נמוכה ופרוטיות נמוכה</option>
+  </select>
+  </div>
+  <h2>First part</h2>
+  <div class="form-group">
+    {{ render_field(form.method1image, class_="form-control") }}
+  </div>
+  {% if privacyFacts!= [] %}
+    <h3 for="" style="display:inherit">Please select the privacy level(first part!):</h3>
+  {% endif %}
+  <div class="form-group">
+    {% for privacyFact in privacyFacts %}
+      <div class="form-group w_50">
+        <label class="w_50 ">{{privacyFact.name}} ----></label>
+        <select class="form-control w_50 " id="privacy{{privacyFact.id}}" name="privacy{{privacyFact.id}}">
+          {% for rankPrivacy in rankPrivacies %}
+            <option value={{rankPrivacy.id}}>{{rankPrivacy.name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    {% endfor %}
+  </div>
+  {% if securtyFeatures!= [] %}
+  <h3 for="" style="display:inherit">Please select the security level(first part!):</h3>
+  {% endif %}
+  <div class="form-group border">
+    {% for securtyFeature in securtyFeatures %}
+      <div class="form-group w_50">
+        <label class="w_50 ">{{securtyFeature.name}} ----></label>
+        <select class="form-control w_50 " id="securty{{securtyFeature.id}}" name="securty{{securtyFeature.id}}">
+          {% for rankSecurty in rankSecurties %}
+            <option value={{rankSecurty.id}}>{{rankSecurty.name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    {% endfor %}
+  </div>
+
+  <h2>Second part</h2>
+  <div class="form-group">
+    {{ render_field(form.method2image, class_="form-control") }}
+  </div>
+
+  {% if privacyFacts!= [] %}
+    <h3 for="" style="display:inherit">Please select the privacy level(second part!):</h3>
+  {% endif %}
+  <div class="form-group">
+    {% for privacyFact in privacyFacts %}
+      <div class="form-group w_50">
+        <label class="w_50 ">{{privacyFact.name}} ----></label>
+        <select class="form-control w_50 " id="privacy{{privacyFact.id}}" name="privacy{{privacyFact.id}}">
+          {% for rankPrivacy in rankPrivacies %}
+            <option value={{rankPrivacy.id}}>{{rankPrivacy.name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    {% endfor %}
+  </div>
+  {% if securtyFeatures!= [] %}
+  <h3 for="" style="display:inherit">Please select the security level(second part!):</h3>
+  {% endif %}
+  <div class="form-group">
+    {% for securtyFeature in securtyFeatures %}
+      <div class="form-group w_50">
+        <label class="w_50 ">{{securtyFeature.name}} ----></label>
+        <select class="form-control w_50 " id="securty{{securtyFeature.id}}" name="securty{{securtyFeature.id}}">
+          {% for rankSecurty in rankSecurties %}
+            <option value={{rankSecurty.id}}>{{rankSecurty.name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    {% endfor %}
+  </div>
+
+
+  {% if securtyFeatures|length!=0 %}
+
+      <div class="form-group my_mark">
+        <label for="Fitzars">Number of securty feature:</label>
+        <select class="form-control Fitzars">
+          <option value="0">0</option>
+          {% for securtyFeature in securtyFeatures %}
+          <option value="{{securtyFeature.id}}">{{securtyFeature.id}}</option>
+          {% endfor %}
+        </select>
+        <br>
+        <input class="btn btn-primary btn-Fitzars" type="button" value="ok">
+      </div>
+    {%endif%}
+  <p><input class="btn btn-secondary addApp pull-right" disabled type="submit" value="Add appliction"></p>
+
+</form>
+<script>
+  var firstTime=true;
+  $(".btn-Fitzars" ).click(function() {
+    if(firstTime)
+      firstTime=false;
+    else
+      if(!confirm('נתוני הפיצרים ימחקו האם להמשיך?'))
+        return;
+    $( ".newFitzars" ).remove();
+    $( ".fitzarName" ).remove();
+    var $value=  $( ".Fitzars" ).val();
+    var $i;
+    for ($i = 0; $i < $value; $i++){
+      var $t='<div class="form-group fitzarName border"><label class="w_50 fitzarName1">Name of the feature</label><label class="w_50 fitzarName2">Enter image</label><select class="form-control w_50" id=fitzarName name=fitzarName>{% for  securtyFeature in securtyFeatures %}<option value={{securtyFeature.id}}>{{securtyFeature.name}}</option>{% endfor %}</select><input style="display:inline-block" class="form-control w_40" id="newFitzarsImage" name="newFitzarsImage" type="file"><i class="plus-minus-toggle collapsed"></i>'
+
+      temp= '<div class="pizerDetailes" style="display:none">{% if privacyFacts!= [] %}<br><span for="" style="display:inherit">Please select the <b>privacy</b> level:</span><br>{% endif %}<div class="form-group">{% for privacyFact in privacyFacts %} <div class="form-group w_50" <label class="w_50 ">{{privacyFact.name}} ----></label> <select class="form-control w_50 " id="fizer_{{privacyFact.id}}" name="fizer_{{privacyFact.id}}"> {% for rankPrivacy in rankPrivacies %} <option value={{rankPrivacy.id}}>{{rankPrivacy.name}}</option> {% endfor %}</select></div>{% endfor %}';
+      temp2 ='<br><span class="w_40" style="display:inline-block">Please select the <b>security</b> level:</span><div class="form-group w_50"><select class="form-control w_50 " id="securty_fizer" name="securty_fizer">{% for rankSecurty in rankSecurties %}<option value={{rankSecurty.id}}>{{rankSecurty.name}}</option>{% endfor %}</select></div></div>'
+
+
+
+      $($t+temp+temp2).insertAfter( ".my_mark" );
+      var $t='Name of the feature '+($value - $i);
+      $( ".fitzarName:first label:first").text($t);
+    }
+    $(".addApp" ).removeClass('btn-secondary').addClass('btn-success').prop("disabled", false);
+    });
+    $(document).on('click', '.plus-minus-toggle', function(){
+        $(this).toggleClass('collapsed');
+        $(this).nextAll('div.pizerDetailes').first().slideToggle();
+      });
+
+
+
+     // $('.show_hide').toggle(function(){
+     //
+     //
+     // },function(){
+     //     $("#plus").text("+");
+     //     $(".slidingDiv").slideUp();
+     // });
+
+
+
+
+</script>
+{% endblock %}

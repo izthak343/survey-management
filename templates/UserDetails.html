@@ -1,0 +1,76 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1>User details</h1>
+  <table class="table table-striped">
+    <tr>
+      <td >Name</td>
+      <td >email</td>
+      <td >survy type</td>
+      <td >start survy?</td>
+    </tr>
+    {% for user in users %}
+      {% if user.type==2%}
+        <tr>
+          <td>{{user.name}}</td>
+          <td>{{user.email}}</td>
+          <td>
+              <select class="form-control" data-user={{user.id}} id="experimentype" name="experimentype">
+                {% for experiment in experiments %}
+                  <option {%if user.ExperimentId == experiment.id %} selected {% endif%}  value={{experiment.id}}>Type {{experiment.type}}</option>
+                {% endfor %}
+              </select>
+          </td>
+
+          <td>
+          {% if user.startSurvy == 1 %}
+            <button type="" data-user={{user.id}} class="btn btn-success pull-left"">Click to cancel</button>
+          {% else %}
+            <button type="" data-user={{user.id}} class="btn btn-danger pull-left"">Click to confirm</button>
+          {% endif %}
+          </td>
+        </tr>
+        {% endif %}
+    {% endfor %}
+    </table>
+
+    <script>
+      $(document).on('click', '.btn-success', function()
+      {
+        var $temp=$(this)
+        $.ajax({
+            url: '/removePermission',
+            dataType: "json",
+            data: {'userId': $(this).attr('data-user')},
+            type: 'POST',
+            success: function(response)
+            {
+              $temp.removeClass('btn-success').addClass('btn-danger').text('Click to confirm')
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+      });
+      $(document).on('click', '.btn-danger', function()
+      {
+        var $temp=$(this)
+        var $type=$( '#experimentype[data-user='+ $(this).attr('data-user') +'] option:selected' ).val();
+        console.log($type)
+        $.ajax({
+            url: '/addPermission',
+            dataType: "json",
+            data: {'userId': $(this).attr('data-user'),'type':$type},
+            type: 'POST',
+            success: function(response)
+            {
+              $temp.removeClass('btn-danger').addClass('btn-success').text('Click to cancel')
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+      });
+    </script>
+
+{% endblock %}

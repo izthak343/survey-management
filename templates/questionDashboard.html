@@ -1,0 +1,153 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style media="screen">
+</style>
+  <h1> Question dashboard</h1>
+    <h2>Save question:</h2>
+    <table class="table table-striped">
+        <tr>
+          <td style="width: 50%">question</td>
+          <td >part</td>
+          <td >type</td>
+          <td >option</td>
+        </tr>
+          {% for question in questions %}
+            {% if question.section == 1 %}
+              <tr>
+                <td>
+                  <input class="form-control" id={{question.id}} name={{question.id}} type="text" value="{{question.question}}">
+                </td>
+                <td> <div style="background-color: #f9f9f9" class="form-control">{{question.section}}</div></td>
+                {% if question.type == 1 %}
+                  <td> <div style="background-color: #f9f9f9" class="form-control">radio question</div></td>
+                {% else %}
+                  {% if question.type == 2 %}
+                    <td> <div style="background-color: #f9f9f9" class="form-control">open question</div></td>
+                  {% else %}
+                    <td> <div style="background-color: #f9f9f9" class="form-control">american question</div></td>
+                  {% endif %}
+                {% endif %}
+                <td>
+                  <div data-question={{question.id}} class="btn btn-warning pull-right" method="POST">save change</div>
+                  <div data-question={{question.id}} class="btn btn-danger pull-right" method="POST">delete</div>
+                  <i class="fa fa-thumbs-o-up" data-mark={{question.id}} style="font-size:24px;display:none"></i>
+                </td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+          {% for question in questions %}
+            {% if question.section == 2 %}
+              <tr>
+                <td>
+                  <input class="form-control" id={{question.id}} name={{question.id}} type="text" value="{{question.question}}">
+                </td>
+                <td> <div class="form-control" style="background-color: #f9f9f9">{{question.section}}</div></td>
+                {% if question.type == 1 %}
+                  <td> <div style="background-color: #f9f9f9" class="form-control">radio question</div></td>
+                {% else %}
+                  {% if question.type == 2 %}
+                    <td> <div style="background-color: #f9f9f9" class="form-control">open question</div></td>
+                  {% else %}
+                    <td> <div style="background-color: #f9f9f9" class="form-control">american question</div></td>
+                  {% endif %}
+                {% endif %}
+                <td>
+                  <div data-question={{question.id}} class="btn btn-warning pull-right" method="POST">save change</div>
+                  <div data-question={{question.id}} class="btn btn-danger pull-right" method="POST">delete</div>
+                  <i class="fa fa-thumbs-o-up" data-mark={{question.id}} style="font-size:24px;display:none"></i>
+                </td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+      </table>
+      <h2 style="display: initial">new question:</h2>
+      <form action="" method="POST">
+        <table class="table table-striped">
+            <tr class="last" >
+            </tr>
+        </table>
+        <i class="fa fa-plus" style="font-size:24px"></i>
+        <br>
+        <p><input class="btn btn-primary pull-right" disabled method="POST" type="submit" value="add question"></p>
+      </form>
+      <script>
+        $('.btn-warning').click(function(){
+          var num=$(this).attr('data-question')
+          var $temp='#'+ num
+          var $next = $(this).next()
+          $.ajax({
+              url: '/edit_question',
+              dataType: "json",
+              data: {'questionId': $(this).attr('data-question'),'question':$($temp).val()},
+              type: 'POST',
+              success: function(response)
+              {
+                $( "i[data-mark="+num+"]" ).css("display","block");
+                setTimeout(function() {
+                  $( "i[data-mark="+num+"]" ).hide();
+                }, 1000);
+              },
+              error: function(error) {
+                  console.log(error);
+              }
+          });
+        });
+        $('.btn-danger').click(function(){
+          $(this).closest("tr").remove();
+          var num=$(this).attr('data-question')
+          var $temp='#'+ num
+          var $next = $(this).next()
+          $.ajax({
+              url: '/delete_question',
+              dataType: "json",
+              data: {'questionId': $(this).attr('data-question')},
+              type: 'POST',
+              success: function(response)
+              {
+                $( "i[data-mark="+num+"]" ).css("display","block");
+                setTimeout(function() {
+                  $( "i[data-mark="+num+"]" ).hide();
+                }, 1000);
+              },
+              error: function(error) {
+                  console.log(error);
+              }
+          });
+        });
+        $('.fa-plus').click(function(){
+          $('.btn-primary').prop("disabled", false);
+          $('<tr class="last1"><td><input  class="form-control new" id="newQustion" name="newQustion" type="text" value=""></td><td style="width: 12%"><select class="form-control" id="newSection" name="newSection"><option value="1">first part</option><option value="2">second part</option></select></td><td style="width: 17%"><select class="form-control american" id="newOption" name="newOption"><option value="1">radio question</option><option value="2">open question</option><option value="3">american question</option></select></td> <td style="width:3% ; font-size: 24px"><i class="fa fa-trash"></i></td> </tr>').insertAfter( ".last" );
+          $('.last').removeClass('last');
+          $('.last1').removeClass('last1').addClass('last');
+        });
+        $(document).on('click', '.fa-trash', function()
+        {
+            $(this).closest("tr").remove();
+            $( "tr:last").addClass('last');
+            if($('new').length == 0)
+              $('.btn-primary').prop("disabled", true);
+        });
+        $(document).on('change', '.american', function(){
+          var $selcet=$(this).find(":selected").val()
+          for (var i = 0; i < 4; i++) {
+            $(this).next(".newAnswer").remove();
+          }
+          if($selcet==3)
+            $('<input class="form-control newAnswer" id="newAnswer" name="newAnswer" type="text" value="" placeholder="Enter first answer"><input class="form-control newAnswer" id="newAnswer" name="newAnswer" type="text" value="" placeholder="Enter second answer"><input class="form-control newAnswer" id="newAnswer" name="newAnswer" type="text" value="" placeholder="Enter third answer"><input class="form-control newAnswer" id="newAnswer" name="newAnswer" type="text" value="" placeholder="Enter fourth answer">').insertAfter( this )
+        });
+
+
+// if(target == "add")
+//     $("#add").show(selectedEffect, options, 500, callback );
+// else if ($('#target option:selected').text() == "exit")
+//     $("#exit").show(selectedEffect, options, 500, callback );
+// else if ($('#target option:selected').text() == "refuse")
+//     $("#refuse").show(selectedEffect, options, 500, callback );
+// else
+// alert('test');
+      </script>
+
+
+{% endblock %}

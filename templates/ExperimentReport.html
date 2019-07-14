@@ -1,0 +1,118 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<style media="screen">
+  .w_50{
+    width:49%;
+    display: inline-block;  }
+
+}
+</style>
+  <h1>Experiment report</h1>
+  {% if Table != [] %}
+        <table class="table table-striped">
+          <tr>
+            {% for key, value in Table[0].items() %}
+              {% if key != 'ExperimentDetaile'%}
+                  <td ><b>{{key}}</b></td>
+              {% endif %}
+            {% endfor %}
+            <td ><b>option</b></td>
+
+          </tr>
+          {% for row in Table %}
+          <tr>
+            {% for key, value in row.items() %}
+              {% if key != 'ExperimentDetaile' and key != 'app in experiment'  %}
+                  <td >{{value}}</td>
+              {% else %}
+                  {%if  key == 'app in experiment' %}
+                      <td>
+                        <select style="width: 100%;">
+                          {% for val in value%}
+                            <option>{{val}}</option>
+                          {% endfor %}
+                        </select>
+                      </td>
+                  {% else %}
+                    <td>
+                      <a data-appliction={{row['id']}}  class="btn btn-primary btn-sm ">ExperimentDetaile</a>
+                      <a href="/exportExperiment/{{row['id']}}" target="_blank" class="btn btn-success btn-sm" download>Export</a>
+                      <a  href="/answerReport/{{row['id']}}" data-appliction={{row['id']}}  class="btn btn-warning btn-sm ">Answers</a>
+                    </td>
+                  {% endif %}
+              {% endif %}
+            {% endfor %}
+          </tr>
+          {% endfor %}
+          </table>
+          <br><br>
+          {% for row in Table %}
+            <div class="Traditional_summary_old_{{row.id}} myMark" style="display:none;">
+              <div class="left">
+                <table class="table table-striped">
+                  <tr>
+                    <td><b>id</b></td>
+                    <td><b>user</b></td>
+                    <td><b>order</b></td>
+                    <td><b>questionDisplay</b></td>
+                  </tr>
+                  {% for key, value in row.items() %}
+                    {% if key == 'ExperimentDetaile'   %}
+                      {% for internalKey, internalValue in value.items() %}
+                        <tr>
+                          <td>{{internalKey}}</td>
+                          {% for internalInternalKey, internalInternalValue in internalValue.items() %}
+                            {% if internalInternalKey == 'order' %}
+                              <td>
+                                {% for or in internalInternalValue %}
+                                  {{or}} |
+                                {% endfor %}
+                              </td>
+                            {%else%}
+                                <td>{{internalInternalValue}}</td>
+                            {%endif%}
+                          {% endfor %}
+                        </tr>
+                      {% endfor %}
+                    {%endif%}
+                  {% endfor %}
+                </table>
+              </div>
+            </div>
+          {% endfor %}
+        {%endif%}
+
+
+
+    <script type="text/javascript">
+      $(document).on('click', '.btn-primary', function(){
+        $id=$(this).attr('data-appliction').toString()
+        $(".myMark").each(function() {
+          $(this).hide(1000)
+        });
+        $('.Traditional_summary_old_'+$id).show(1000);
+      });
+      $(document).on('click', '.btn-danger', function(){
+        $id=$(this).attr('data-appliction').toString()
+        $(".myMark").each(function() {
+          $(this).hide(1000)
+        });
+        $('.Traditional_summary_new_'+$id).show(1000);
+      });
+      $(document).on('click', '.btn-warning', function(){
+        $id=$(this).attr('data-appliction').toString()
+        $(".myMark").each(function() {
+          $(this).hide(1000)
+        });
+        $('.Contextual_'+$id).show(1000);
+      });
+
+    </script>
+
+
+
+
+
+
+{% endblock %}

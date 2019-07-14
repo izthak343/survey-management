@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<style media="screen">
+.btn{
+      margin-top: 0.4rem;
+}
+  </style>
+  <div class="jumbotron text-center">
+    <h1>Welcome {{session.username}}</h1>
+    <p class="lead">Select one of the options </p>
+    {% if session.logged_in != NULL %}
+      <a href="/editUserDetails" class="btn btn-primary btn-lg">Edit user details</a>
+      <a href="/UserDetails" class="btn btn-primary btn-lg">All participants</a>
+      <a href="/editApplictionDetails" class="btn btn-primary btn-lg">Edit appliction details</a>
+      <a href="/applicationDashboard" class="btn btn-primary btn-lg">Appliction dashboard</a>
+      <a href="/questionDashboard" class="btn btn-primary btn-lg">Question dashboard</a>
+      <a href="/surveyManagement" class="btn btn-primary btn-lg">Survey management</a>
+      <a href="/Reports" class="btn btn-primary btn-lg">Reports</a>
+
+    {% endif %}
+  </div>
+{% endblock %}

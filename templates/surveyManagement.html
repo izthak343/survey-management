@@ -1,0 +1,505 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<style media="screen">
+  label{display: block;}
+  .border{
+      border:2px solid black;
+      border-radius: 1rem;
+      padding: 4rem 1rem 2rem 1rem;
+    }
+    .w_80{
+      width:80%;
+      display:inline-block;
+      padding-left:4px;
+    }
+    .w_60{
+      width:60%;
+      display:inline-block;
+      padding-left:4px;
+    }
+  .w_20{
+    width:19%;
+    display:inline-block;
+  }
+  .w_18{
+    width:18%;
+    display:inline-block;  }
+    .w_33{
+      width:33%;
+      display:inline-block;  }
+  .Erore_color{
+      font-size: 2rem;
+      color: red;
+    }
+</style>
+  <h1>Survey management</h1>
+  <div class="form-group explain">
+  <h3>Explanation:</h3>
+      <label>type 1: balancing between the two groups, it means that every participant will see either Contextual approach or Traditional approach(new) </label><br>
+      <label>type 2: Contextual approach (new contextual randomly)   </label><br>
+      <label>type 3: Old Traditional approach vs New Traditional approach   </label>
+  </div>
+  <div class="Erore Erore_color" style="display:none">
+    The number of participants must be positive multiplied by 24!
+  </div>
+  <div class="Erore1 Erore_color" style="display:none">
+    The number of applications selected in each category must be equal to and greater than 0!
+  </div>
+  <div class="Erore2 Erore_color" style="display:none">
+    New and old applications can not be integrated into the experiment!
+  </div>
+  <div class="Erore3 Erore_color" style="display:none">
+    The number of new applications selected in each category must be equal to and greater than 0!
+  </div>
+  <div class="Erore4 Erore_color" style="display:none">
+    The number of old applications selected in each category must be equal to and greater than 0!
+  </div>
+
+  <div class="container">
+      <div class="form-group" style="width:33%;display: inline-table; height:100%">
+        <h4  style="text-align: center;"> Type1: </h4>
+        <div class="border Type1">
+
+          <label style="text-align: center;border-bottom: 0.4rem solid;border-color: silver;"> high securty && high privacy</label>
+          {% for  appliction in applictions1%}
+            <input style="text-align: center;" class="form-control w_80" id={{appliction.falseName}} name={{appliction.falseName}} type="text" value="{{appliction.falseName}}" disabled>
+            <label style="margin-left: 4%; display:inline-block"><input type="checkbox" name="type1checkbox" value="{{appliction.id}}" data-check="type1">New</label><br>
+          {% endfor %}
+          <label style="text-align: center;border-bottom: 0.4rem solid;border-color: silver;"> high securty && low privacy</label>
+          {% for  appliction in applictions2%}
+            <input style="text-align: center;" class="form-control w_80" id="{{appliction.falseName}}" name="{{appliction.falseName}}" type="text" value="{{appliction.falseName}}" disabled>
+            <label style="margin-left: 4%; display:inline-block"><input type="checkbox" name="type1checkbox" value="{{appliction.id}}" data-check="type2">New</label><br>
+          {% endfor %}
+          <label style="text-align: center;border-bottom: 0.4rem solid;border-color: silver;"> low securty && high privacy</label>
+          {% for  appliction in applictions3%}
+            <input style="text-align: center;" class="form-control w_80" id="{{appliction.falseName}}" name="{{appliction.falseName}}" type="text" value="{{appliction.falseName}}" disabled>
+            <label style="margin-left: 4%; display:inline-block"><input type="checkbox" name="type1checkbox" value="{{appliction.id}}" data-check="type3">New</label><br>
+          {% endfor %}
+          <label style="text-align: center;border-bottom: 0.4rem solid;border-color: silver;"> low securty && low privacy</label>
+          {% for  appliction in applictions4%}
+            <input style="text-align: center;" class="form-control w_80" id="{{appliction.falseName}}" name="{{appliction.falseName}}" type="text" value="{{appliction.falseName}}" disabled>
+            <label style="margin-left: 4%; display:inline-block"><input type="checkbox" name="type1checkbox" value="{{appliction.id}}" data-check="type4">New</label><br>
+          {% endfor %}
+          <br>
+          <div>
+            <label class="w_80"> Number of participants:</label>
+            <input class="form-control w_18 type1Mark" id="numberPartiType1" name="numberPartiType1" type="number" value=0>
+          </div>
+          <br>
+          <div class="hideType1" style="display:none">
+            <label class="w_80"> Number of participants left:</label>
+            <input class="form-control w_18 type1Mark" id="numberPartiLeft1" name="numberPartiLeft1" type="number" value=0 disabled>
+          </div>
+          <p><input style="margin-left: 43%;" class="btn btn-primary type1btn" method="POST" type="submit" value="start"></p>
+
+        </div>
+            </div>
+
+
+
+        <div class="form-group " style="width:33%;display: inline-table; height:100%">
+          <h4 style="text-align: center;"> Type2: </h4>
+          <div class="border Type2">
+
+            <label style="text-align: center;border-bottom: 0.4rem solid;border-color: silver;"> high securty && high privacy</label>
+            {% for  appliction in applictions1%}
+              <input style="text-align: center;" class="form-control w_80" id={{appliction.falseName}} name={{appliction.falseName}} type="text" value="{{appliction.falseName}}" disabled>
+              <label style="margin-left: 4%; display:inline-block"><input  type="checkbox" name="type2checkbox" value="{{appliction.id}}" data-check="type1">New</label><br>
+            {% endfor %}
+            <label style="text-align: center;border-bottom: 0.4rem solid;border-color: silver;"> high securty && low privacy</label>
+            {% for  appliction in applictions2%}
+              <input style="text-align: center;" class="form-control w_80" id="{{appliction.falseName}}" name="{{appliction.falseName}}" type="text" value="{{appliction.falseName}}" disabled>
+            <label style="margin-left: 4%; display:inline-block"><input type="checkbox" name="type2checkbox" value="{{appliction.id}}" data-check="type2">New</label><br>
+            {% endfor %}
+            <label style="text-align: center;border-bottom: 0.4rem solid;border-color: silver;"> low securty && high privacy</label>
+            {% for  appliction in applictions3%}
+              <input style="text-align: center;" class="form-control w_80" id="{{appliction.falseName}}" name="{{appliction.falseName}}" type="text" value="{{appliction.falseName}}" disabled>
+              <label style="margin-left: 4%; display:inline-block"><input  type="checkbox" name="type2checkbox" value="{{appliction.id}}" data-check="type3" >New</label><br>
+            {% endfor %}
+            <label style="text-align: center;border-bottom: 0.4rem solid;border-color: silver;"> low securty && low privacy</label>
+            {% for  appliction in applictions4%}
+              <input style="text-align: center;" class="form-control w_80" id="{{appliction.falseName}}" name="{{appliction.falseName}}" type="text" value="{{appliction.falseName}}" disabled>
+              <label style="margin-left: 4%; display:inline-block"><input  type="checkbox" name="type2checkbox" value="{{appliction.id}}" data-check="type4" >New</label><br>
+            {% endfor %}
+            <br>
+            <div>
+              <label class="w_80"> Number of participants:</label>
+              <input class="form-control w_18 type2Mark" id="numberPartiType2" name="numberPartiType2" type="number" value=0>
+            </div>
+            <br>
+            <div class="hideType2" style="display:none">
+              <label class="w_80"> Number of participants left:</label>
+              <input class="form-control w_18 type2Mark" id="numberPartiLeft2" name="numberPartiLeft2" type="number" value=0 disabled>
+            </div>
+            <p><input style="margin-left: 43%;" class="btn btn-primary type2btn" method="POST" type="submit" value="start"></p>
+          </div>
+          </div>
+
+          <div class="form-group  " style="width:33%;display: inline-table; height:100%">
+            <h4 style="text-align: center;"> Type3: </h4>
+            <div class="border Type3">
+
+              <label style="text-align: center;border-bottom: 0.4rem solid;border-color: silver;"> high securty && high privacy</label>
+              {% for  appliction in applictions1%}
+                <input style="text-align: center;" class="form-control w_60" id={{appliction.falseName}} name={{appliction.falseName}} type="text" value="{{appliction.falseName}}" disabled>
+                <div style="    width: 38%; display: inline-flex;justify-content: space-between;padding: 0 1rem;">
+                  <label style="display:inline-block"><input type="checkbox" name="type3checkbox" value="{{appliction.id}}" data-check="type1New">New</label>
+                  <label style="display:inline-block"><input type="checkbox" name="type3checkbox" value="{{appliction.id}}" data-check="type1Old">Old</label>
+
+                </div>
+              {% endfor %}
+              <label style="text-align: center;border-bottom: 0.4rem solid;border-color: silver;"> high securty && low privacy</label>
+              {% for  appliction in applictions2%}
+                <input style="text-align: center;" class="form-control w_60" id="{{appliction.falseName}}" name="{{appliction.falseName}}" type="text" value="{{appliction.falseName}}" disabled>
+                <div style="width: 38%; display: inline-flex;justify-content: space-between;padding: 0 1rem;">
+                  <label style="display:inline-block"><input type="checkbox" name="type3checkbox" value="{{appliction.id}}" data-check="type2New" >New</label>
+                  <label style="display:inline-block"><input type="checkbox" name="type3checkbox" value="{{appliction.id}}" data-check="type2Old" >Old</label>
+                </div>
+              {% endfor %}
+              <label style="text-align: center;border-bottom: 0.4rem solid;border-color: silver;"> low securty && high privacy</label>
+              {% for  appliction in applictions3%}
+                <input style="text-align: center;" class="form-control w_60" id="{{appliction.falseName}}" name="{{appliction.falseName}}" type="text" value="{{appliction.falseName}}" disabled>
+                <div  style="    width: 38%; display: inline-flex;justify-content: space-between;padding: 0 1rem;">
+                  <label style="display:inline-block"><input type="checkbox" name="type3checkbox" value="{{appliction.id}}" data-check="type3New">New</label>
+                  <label style="display:inline-block"><input type="checkbox" name="type3checkbox" value="{{appliction.id}}" data-check="type3Old">Old</label>
+                </div>
+              {% endfor %}
+              <label style="text-align: center;border-bottom: 0.4rem solid;border-color: silver;"> low securty && low privacy</label>
+              {% for  appliction in applictions4%}
+                <input style="text-align: center;" class="form-control w_60" id="{{appliction.falseName}}" name="{{appliction.falseName}}" type="text" value="{{appliction.falseName}}" disabled>
+                <div  style="    width: 38%; display: inline-flex;justify-content: space-between;padding: 0 1rem;">
+                  <label style="display:inline-block"><input type="checkbox" name="type3checkbox" value="{{appliction.id}}" data-check="type4New">New</label>
+                  <label style="display:inline-block"><input type="checkbox" name="type3checkbox" value="{{appliction.id}}" data-check="type4Old">Old</label>
+                </div>
+              {% endfor %}
+              <br>
+              <br>
+              <div>
+                <label class="w_80"> Number of participants:</label>
+                <input class="form-control w_18 type3Mark" id="numberPartiType3" name="numberPartiType3" type="number" value=0>
+              </div>
+              <br>
+              <div class="hideType3" style="display:none">
+                <label class="w_80"> Number of participants left:</label>
+                <input class="form-control w_18 type3Mark" id="numberPartiLeft3" name="numberPartiLeft3" type="number" value=0 disabled>
+              </div>
+              <p><input style="margin-left: 43%;" class="btn btn-primary type3btn" method="POST" type="submit" value="start"></p>
+
+            </div>
+                </div>
+
+  </div>
+  <script type="text/javascript">
+    $.ajax({
+        url: '/experimentRun',
+        dataType: "json",
+        type: 'get',
+        success: function(response)
+        {
+          for (var i = 0; i < response.length; i=i+3) {
+            if(response[i]==1)
+            {
+              $('#numberPartiType1').prop('disabled', true);
+              $('#numberPartiType1').val(response[i+1])
+              $('#numberPartiLeft1').val(response[i+2]);
+              $('.Type1').css("background-color","#398439");
+              $('.hideType1').show()
+              $('.type1btn').removeClass('type1btn').addClass('noType1btn').val('stop')
+            }
+            else {
+              if(response[i]==2)
+              {
+                $('#numberPartiType2').prop('disabled', true);
+                $('#numberPartiType2').val(response[i+1])
+                $('#numberPartiLeft2').val(response[i+2]);
+                $('.Type2').css("background-color","#398439");
+                $('.hideType2').show()
+                $('.type2btn').removeClass('type2btn').addClass('noType2btn').val('stop')
+              }
+              else {
+                $('#numberPartiType3').prop('disabled', true);
+                $('#numberPartiType3').val(response[i+1])
+                $('#numberPartiLeft3').val(response[i+2]);
+                $('.Type3').css("background-color","#398439");
+                $('.hideType3').show()
+                $('.type3btn').removeClass('type3btn').addClass('noType3btn').val('stop')
+              }
+
+              }
+
+            }
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+
+    $.ajax({
+        url: '/experimentAppRun',
+        dataType: "json",
+        type: 'get',
+        success: function(response)
+        {
+          for (var i = 0; i < response.length; i+=1) {
+            if(response[i]==1)
+            {
+              i+=1
+              for (; i < response.length; i+=1)
+              {
+                if(response[i]==-1)
+                  break;
+                $('input[name=type1checkbox][value='+response[i]+']').prop('checked', true);
+              }
+            }
+            else
+            {
+              if(response[i]==2)
+              {
+                i+=1
+                for (; i < response.length; i+=1)
+                {
+                  if(response[i]==-1)
+                    break;
+                  $('input[name=type2checkbox][value='+response[i]+']').prop('checked', true);
+                }
+              }
+              else {
+                i+=1
+                if(response[i]=='old: 4')typeBox='Old';
+                else typeBox='New';
+                i+=1
+                j=1
+                for (; i < response.length; i+=1)
+                {
+                  if(response[i]==-1)
+                    break;
+                  console.log('input[name=type3checkbox][value='+response[i]+'][data-check=type'+j+typeBox+']')
+                  $('input[name=type3checkbox][value='+response[i]+'][data-check=type'+j+typeBox+']').prop('checked', true);
+                  j+=1
+                }
+              }
+            }
+          }
+
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+
+
+    $(document).on('click','.type1btn', function(){
+      if($('#numberPartiType1').val()%24!=0 ||$('#numberPartiType1').val()<=0 )
+      {
+        $('.Erore').show(2).delay(1000).hide(1);
+        return false;
+      }
+      $type1=$('input:checked[name=type1checkbox][data-check=type1]').length
+      $type2=$('input:checked[name=type1checkbox][data-check=type2]').length
+      $type3=$('input:checked[name=type1checkbox][data-check=type3]').length
+      $type4=$('input:checked[name=type1checkbox][data-check=type4]').length
+      if($type1!= $type2 ||$type1!= $type3 ||$type1!= $type4 ||$type2!= $type3 ||$type2!= $type4 || $type3!= $type4 || $type3 == 0)
+      {
+        $('.Erore1').show(2).delay(1000).hide(1);
+        return false;
+      }
+      var data = {'type': 1,'numberParti':$('#numberPartiType1').val(),'checkboxLen':$('input:checked[name=type1checkbox]').length};
+      var i=0;
+      $('input:checked[name=type1checkbox]').each(function( index ) {
+        data[i]=$( this ).val()
+        i+=1
+      })
+
+      $.ajax({
+          url: '/start_survy',
+          dataType: "json",
+          data: data ,
+          type: 'POST',
+          success: function(response)
+          {
+            $('#numberPartiType1').prop('disabled', true);
+            $('#numberPartiLeft1').val($('#numberPartiType1').val());
+            $('.Type1').css("background-color","#398439");
+            $('.hideType1').show()
+            $('.type1btn').removeClass('type1btn').addClass('noType1btn').val('stop')
+          },
+          error: function(error) {
+              console.log(error);
+          }
+      });
+    });
+    $(document).on('click', '.noType1btn', function(){
+
+      var data = {'type': 1};
+      $.ajax({
+          url: '/stop_survy',
+          dataType: "json",
+          data: data ,
+          type: 'POST',
+          success: function(response)
+          {
+            $('#numberPartiType1').prop('disabled', false);
+            $('#numberPartiType1').val(0);
+            $('.Type1').css("background-color","white");
+            $('.hideType1').hide()
+            $('.noType1btn').removeClass('noType1btn').addClass('type1btn').val('start')
+          },
+          error: function(error) {
+              console.log(error);
+          }
+      });
+    });
+
+    $(document).on('click', '.type2btn', function()
+    {
+      if($('#numberPartiType2').val()%24!=0 ||$('#numberPartiType2').val()<=0 )
+      {
+        $('.Erore').show(1.5).delay(1000).hide(1);
+        return false;
+      }
+      $type1=$('input:checked[name=type2checkbox][data-check=type1]').length
+      $type2=$('input:checked[name=type2checkbox][data-check=type2]').length
+      $type3=$('input:checked[name=type2checkbox][data-check=type3]').length
+      $type4=$('input:checked[name=type2checkbox][data-check=type4]').length
+      if($type1!= $type2 ||$type1!= $type3 ||$type1!= $type4 ||$type2!= $type3 ||$type2!= $type4 || $type3!= $type4 || $type3 == 0)
+      {
+        $('.Erore1').show(2).delay(1000).hide(1);
+        return false;
+      }
+      var data = {'type': 2,'numberParti':$('#numberPartiType2').val(),'checkboxLen':$('input:checked[name=type2checkbox]').length};
+      var i=0;
+      $('input:checked[name=type2checkbox]').each(function( index ) {
+        data[i]=$( this ).val()
+        i+=1
+      })
+      $.ajax({
+          url: '/start_survy',
+          dataType: "json",
+          data: data ,
+          type: 'POST',
+          success: function(response)
+          {
+            $('#numberPartiType2').prop('disabled', true);
+            $('#numberPartiLeft2').val($('#numberPartiType2').val());
+            $('.Type2').css("background-color","#398439");
+            $('.hideType2').show()
+            $('.type2btn').removeClass('type2btn').addClass('noType2btn').val('stop')
+          },
+          error: function(error)
+          {
+              console.log(error);
+          }
+        });
+        });
+    $(document).on('click', '.noType2btn', function()
+    {
+      var data = {'type': 2};
+      $.ajax({
+          url: '/stop_survy',
+          dataType: "json",
+          data: data ,
+          type: 'POST',
+          success: function(response)
+          {
+            $('#numberPartiType2').prop('disabled', false);
+            $('#numberPartiType2').val(0);
+            $('.Type2').css("background-color","white");
+            $('.hideType2').hide()
+            $('.noType2btn').removeClass('noType2btn').addClass('type2btn').val('start')
+          },
+          error: function(error) {
+              console.log(error);
+          }
+      });
+      });
+
+    $(document).on('click', '.type3btn', function(){
+      if($('#numberPartiType3').val()%24!=0 ||$('#numberPartiType3').val()<=0 )
+      {
+        $('.Erore').show(1.5).delay(1000).hide(1);
+        return false;
+      }
+      $New=true
+      $type1=$('input:checked[name=type3checkbox][data-check=type1New]').length
+      $type2=$('input:checked[name=type3checkbox][data-check=type2New]').length
+      $type3=$('input:checked[name=type3checkbox][data-check=type3New]').length
+      $type4=$('input:checked[name=type3checkbox][data-check=type4New]').length
+      if($type1!= $type2 ||$type1!= $type3 ||$type1!= $type4 ||$type2!= $type3 ||$type2!= $type4 || $type3!= $type4)
+      {
+        $('.Erore3').show(2).delay(1000).hide(1);
+        return false;
+      }
+      if($type1 == 0)
+        $New=false
+      $type1=$('input:checked[name=type3checkbox][data-check=type1Old]').length
+      $type2=$('input:checked[name=type3checkbox][data-check=type2Old]').length
+      $type3=$('input:checked[name=type3checkbox][data-check=type3Old]').length
+      $type4=$('input:checked[name=type3checkbox][data-check=type4Old]').length
+      if($type1!= $type2 ||$type1!= $type3 ||$type1!= $type4 ||$type2!= $type3 ||$type2!= $type4 || $type3!= $type4)
+      {
+        $('.Erore4').show(2).delay(1000).hide(1);
+        return false;
+      }
+      if($type3 == 0 && $New==false)
+        {
+          $('.Erore1').show(2).delay(1000).hide(1);
+          return false;
+        }
+      else if ($type3 != 0 && $New!=false) {
+        $('.Erore2').show(2).delay(1000).hide(1);
+        return false;
+      }
+      var data = {'type': 3,'numberParti':$('#numberPartiType3').val(),'checkboxLen':$('input:checked[name=type3checkbox]').length,'new' : $New};
+      var i=0;
+      $('input:checked[name=type3checkbox]').each(function( index ) {
+        data[i]=$( this ).val()
+        i+=1
+      })
+      $.ajax({
+          url: '/start_survy',
+          dataType: "json",
+          data: data ,
+          type: 'POST',
+          success: function(response)
+          {
+            $('#numberAppType3').prop('disabled', true);
+            $('#numberPartiType3').prop('disabled', true);
+            $('#numberPartiLeft3').val($('#numberPartiType3').val());
+            $('.Type3').css("background-color","#398439");
+            $('.hideType3').show()
+            $('.type3btn').removeClass('type3btn').addClass('noType3btn').val('stop')
+          },
+          error: function(error)
+          {
+              console.log(error);
+          }
+        });
+      });
+    $(document).on('click', '.noType3btn', function()
+    {
+      var data = {'type': 3};
+      $.ajax({
+          url: '/stop_survy',
+          dataType: "json",
+          data: data ,
+          type: 'POST',
+          success: function(response)
+          {
+            $('#numberPartiType3').prop('disabled', false);
+            $('#numberPartiType3').val(0);
+            $('.Type3').css("background-color","white");
+            $('.hideType3').hide()
+            $('.noType3btn').removeClass('noType3btn').addClass('type3btn').val('start')
+          },
+          error: function(error) {
+              console.log(error);
+          }
+      });
+      });
+
+
+  </script>
+
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1>User report</h1>
+  <table class="table table-striped">
+    <tr>
+      {% for columnName in columnNames %}
+        <td ><b>{{columnName}}</b></td>
+      {% endfor %}
+    </tr>
+    {% for row in Table %}
+      <tr>
+        {% for value in row %}
+            <td >     {{ value }}</td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+
+    </table>
+    <a class="btn btn-success pull-left" href="/exportUsers" target="blank" download>Export</a>
+
+
+
+{% endblock %}

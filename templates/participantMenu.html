@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <div class="jumbotron text-center" dir="rtl">
+    <h1> {{session.username}} ברוך הבא</h1>
+    {% if session.logged_in != NULL %}
+      <a href="/Survey" class="btn btn-primary btn-lg">התחל את הסקר</a>
+    {% endif %}
+  </div>
+{% endblock %}

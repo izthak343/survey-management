@@ -1,0 +1,248 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<style media="screen">
+  body{
+    direction: rtl;
+  }
+  .user{
+    width:100%;
+  }
+  .w_65{
+    width:65%;
+  }
+  .w_5{
+    width:5%;
+    text-align: center;
+  }
+  .w_25{
+    width:25%;
+    display:inline-block;
+  }
+  .w_100{
+    width:100%;
+    display:inline-block;
+  }
+.form-radio
+{
+  margin:0px !important;
+    -webkit-appearance: none;
+    display: inline-block;
+    position: relative;
+    background-color: #f7f7f7;
+    color: #666;
+    height: 30px;
+    width: 30px;
+    border: 0;
+    border-radius: 50px;
+    cursor: pointer;
+    border: 1px solid;
+    outline: none !important;
+}
+.form-radio:checked::before
+{
+     position: absolute;
+     font: 13px/1 'Open Sans', sans-serif;
+     left: 11px;
+     top: 7px;
+     content: '\02143';
+     transform: rotate(40deg);
+     font-weight: bold;
+}
+.form-radio:hover
+{
+     background-color: #f7f7f7;
+}
+.form-radio:checked
+{
+     background-color: #f7f7f7;
+}
+.top{
+    top: 1rem;
+}
+.questionPart{
+  border-bottom: 1px solid;
+}
+.image{
+  position: relative;
+  height: 57rem !important;
+  width: 100%;
+}
+.main_image{
+  position: absolute;
+  height: 55rem;
+  transform: translate(50%);
+
+}
+.pre_image{
+  width: 8rem;
+  float: right;
+cursor: pointer;
+}
+.next_image{
+  width: 8rem;
+  float: left;
+}
+.next_image{
+  width: 8rem;
+  float: left;
+}
+.finish_image
+{
+  width: 8rem;
+  float: left;
+}
+.move{
+  width: 100%;
+  padding-left: 9rem;
+  padding-right: 9rem;
+}
+.move-image{
+  cursor: pointer;
+}
+.move-image:hover {opacity: 0.7;}
+.Erore{
+  font-size: 3rem;
+  color: red;
+}
+</style>
+
+<h3 class="Guidelines">
+  נא לענות על השאלות הבאות
+</h3>
+
+<div class="Erore" style="display:none">
+יש לבחור תשובה אחת בכל שורה!
+</div>
+<div class="container">
+  {% if type1%}
+  <table class="table table-striped radio_type">
+      <h3>נא לסמן אחת מהתשובות (1-במידה מועטה 7 - במידה רבה)</h3>
+      <tr class="questionPart">
+        <td class="w_65 type1 questionPart">שאלה</td>
+        {% for answer in answers %}
+          <td class="type1 w_5 questionPart">{{answer}}</td>
+        {% endfor%}
+      </tr>
+      {% for question in questions %}
+        {% if question.type == 1 %}
+        <tr>
+          <td>{{question.question}}</td>
+          {% for answer in answers %}
+          <td class="w_5">
+            <input type="radio" class="form-radio radio-first" name="{{question.id}}" value="{{answer}}">
+          </td>
+          {% endfor %}
+        </tr>
+      {%endif%}
+    {% endfor %}
+  </table>
+  {% endif%}
+  <br>
+  {% if type2%}
+  <table class="table table-striped open_type">
+    <h3>נא לענות על השאלות הבאות</h3>
+    {% for question in questions %}
+      {% if question.type == 2 %}
+        <tr class="questionPart">
+          <td class="w_25 type2">{{question.question}}</td>
+        </tr>
+        <tr>
+          <td class="w_100">
+            <input class="form-control" id="{{question.id}}" name="{{question.id}}" type="text" value="">
+          </td>
+        </tr>
+    {%endif%}
+  {% endfor %}
+  </table>
+  {%endif%}
+
+<br>
+{% if type3 %}
+  <table class="table table-striped american_type">
+    <h3>נא לסמן אחת מהתשובות</h3>
+    {% for question in questions %}
+      {% if question.type == 3 %}
+        <tr class="questionPart">
+          <td style="width:100% type3">{{question.question}}</td>
+        </tr>
+        <tr>
+          <td class="w_100">
+            <input class="form-radio top radio-second" type="radio" name="{{question.id}}" value="{{question.answer1}}"><label>{{question.answer1}}</label>
+          </td>
+        </tr>
+        <tr>
+          <td class="w_100">
+            <input class="form-radio top radio-second" type="radio" name="{{question.id}}" value="{{question.answer2}}"><label>{{question.answer2}}</label>
+          </td>
+        </tr>
+        <tr>
+          <td class="w_100">
+            <input class="form-radio top radio-second" type="radio" name="{{question.id}}" value="{{question.answer3}}"><label>{{question.answer3}}</label>
+          </td>
+        </tr>
+        <tr>
+          <td class="w_100">
+            <input class="form-radio top radio-second" type="radio" name="{{question.id}}" value="{{question.answer4}}"><label>{{question.answer4}}</label>
+          </td>
+        </tr>
+    {%endif%}
+  {% endfor %}
+  </table>
+  {%endif%}
+  <br>
+
+  <div class="container move">
+    <div class="move-image">
+      <img class="finish_image" src="/pictures/icons/finish.png" >
+    </div>
+  </div>
+
+</div>
+  <br>
+    <br>
+
+
+
+
+
+<script type="text/javascript">
+  $indexImg=0
+  $answer=[]
+  $(document).on('click', '.finish_image', function(){
+    if($('.radio-first:checked').length !=$('.radio-first').length/7 )
+    {
+      $('.Erore').show(1.5).delay(1000).hide(1);
+      return false;
+    }
+    smallAns=[]
+    $('.radio-first:checked').each(function() {
+       smallAns.push($(this).val());
+     });
+     $('.form-control').each(function() {
+        smallAns.push($(this).val());
+      });
+     $('.radio-second:checked').each(function() {
+        smallAns.push($(this).val());
+      });
+      $answer[$indexImg]=smallAns
+      $dataSend={}
+      $dataSend['$answer']=$answer
+      $.ajax({
+          url: '/saveReportsPart2',
+          dataType: "json",
+          data: $dataSend,
+          type: 'POST',
+          success: function(response)
+          {
+            window.location.replace("/thankYou");
+          },
+          error: function(error) {
+              console.log(error);
+          }
+      });
+  });
+
+
+</script>
+{% endblock %}

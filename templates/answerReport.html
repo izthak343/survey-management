@@ -1,0 +1,134 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<style media="screen">
+  .w_50{
+    width:49%;
+    display: inline-block;  }
+
+.in_row{
+  width: 15%;
+  display: inline-block;
+  margin: 0.5rem;
+  text-align: center;
+}
+.general_row{
+  width: 100%;
+  display: inline-block;
+  margin: 0.5rem;
+  text-align: center;
+}
+
+.container_in{
+      border: 0.5rem solid
+}
+</style>
+  <h1>answer report</h1>
+
+  {% if Table != [] %}
+  <div class="container_in">
+    {% for row in Table %}
+        {% if Table.index(row)+1 != Table|length %}
+          <div class="in_row">
+            <a data-experiment={{Table.index(row)}}  class="btn btn-primary btn-sm ">Experiment_{{Table.index(row)+1}}</a>
+          </div>
+          {% else %}
+            <div class="general_row">
+              <a data-experiment={{Table.index(row)}}  class="btn btn-warning btn-sm ">general report</a>
+            </div>
+          {% endif %}
+    {% endfor %}
+    <div class="general_row">
+      <a  class="btn btn-success btn-sm "  href="/exportAnswer/{{expId}}" target="blank" download>Export</a>
+    </div>
+  </div>
+  <br>  <br>
+
+    {% for row in Table %}
+        <div class="table_{{Table.index(row)}} myMark" style="display:none">
+          {% for key, value in row.items() %}
+            {% if key!= 'general report' %}
+                    <table class="table table-striped" style="text-align: center;">
+                      {% for inKey, inValue in value.items() %}
+                      <tr>
+                          <td align="center" colspan="7" style="color: red;"><b>{{inKey}}</b></td>
+                      </tr>
+                      {% endfor%}
+                      <tr>
+                        <td ><b>question</b></td>
+                        <td ><b>user</b></td>
+                        <td ><b>Traditional_summary_old</b></td>
+                        <td ><b>Traditional_summary_new</b></td>
+                        {% for column in columns %}
+                          <td ><b>{{column}}</b></td>
+                        {%endfor%}
+                      </tr>
+                          {% for inKey, inValue in value.items() %}
+                            {% for inInKey, inInValue in inValue.items() %}
+                            <tr>
+                              <td >{{inInKey}}</td>
+                                {% for inInInKey, inInInValue in inInValue.items() %}
+                                  <td >{{inInInValue}}</td>
+                                {% endfor%}
+                            </tr>
+                            {% endfor%}
+                          {% endfor%}
+                      </table>
+                {% else %}
+                    <table class="table table-striped" style="text-align: center;">
+                      <tr>
+                          <td align="center" colspan="3" style="color: red;"><b>general report</b></td>
+                      </tr>
+                      <tr>
+                      <td ><b>user</b></td>
+                      {% for QuestionArrGenral in QuestionsArrGenral %}
+                          <td ><b>{{QuestionArrGenral}}</b></td>
+                      {% endfor%}
+                      </tr>
+                      <tr>
+                      {% for inKey,inValue in value.items() %}
+                      <td >{{inKey}}</td>
+                          {% for inInKey,inInValue in inValue.items() %}
+                          <td >{{inInValue}}</td>
+                          {% endfor%}
+                      </tr>
+                      {% endfor%}
+
+
+                {% endif %}
+              {% endfor%}
+              <br>
+        </div>
+
+    {% endfor %}
+  {% endif %}
+
+
+
+
+
+
+    <script type="text/javascript">
+      $(document).on('click', '.btn-primary', function(){
+        $id=$(this).attr('data-experiment').toString()
+        $(".myMark").each(function() {
+          $(this).hide(1000)
+        });
+        $('.table_'+$id).show(1000);
+      });
+      $(document).on('click', '.btn-warning', function(){
+        $id=$(this).attr('data-experiment').toString()
+        $(".myMark").each(function() {
+          $(this).hide(1000)
+        });
+        $('.table_'+$id).show(1000);
+      });
+
+    </script>
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<style media="screen">
+  .w_33{
+    width:33%;
+    display: inline-block;
+  }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <h1>Edit user details</h1>
+  <form action="" method="POST">
+    <div class="form-group">
+      <label>email</label>
+      <select class="form-control" id="email" name="email">
+        <option selected value="4">Email filed</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>password</label>
+      <select class="form-control" id="pass" name="pass">
+        <option selected value="3">Password filed</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>name</label>
+      <select class="form-control" id="name" name="name">
+        <option value="1">Text field</option>
+      </select>
+    </div>
+    {% for UserDetaile in UserDetails %}
+      <div class="form-group">
+        <label class="w_33">name</label>
+        <label class="w_33">attr</label>
+        <label class="w_33">type</label>
+        <input class="form-control w_33" id="editname" name="editname" type="text" value="{{UserDetaile.name}}">
+        <input class="form-control w_33" id="editattr" name="editattr" type="text" value="{{UserDetaile.attr}}">
+        <select class="form-control w_33" id="edittype" name="edittype">
+          <option {%if UserDetaile.type == 1  %} selected {%endif%} value="1">Text field</option>
+          <option {%if UserDetaile.type == 2  %} selected {%endif%} value="2">Date filed</option>
+          <option {%if UserDetaile.type == 3  %} selected {%endif%} value="3">Password filed</option>
+          <option {%if UserDetaile.type == 4  %} selected {%endif%} value="4">Email filed</option>
+        </select>
+        <i class="fa fa-trash"></i>
+      </div>
+    {% endfor %}
+    <div class="last">
+
+    </div>
+
+    <i class="fa fa-plus" style="font-size:36px"></i>
+    <br>
+    <p><input class="btn btn-primary pull-right" method="POST" type="submit" value="ok"></p>
+  </form>
+  <script>
+    $('.fa-plus').click(function()
+    {
+      $('<div class="form-group last1"><div><label class="w_33">Name</label><label class="w_33">attr</label><label class="w_33">Type</label></div><input class="form-control w_33" id="editname" name="editname" type="text" value=""><input class="form-control w_33" id="editattr" name="editattr" type="text" value=""><select class="form-control w_33" id="edittype" name="edittype"><option value="1">Text field</option><option value="2">Date filed</option><option value="3">Password filed</option><option value="4">Email filedל</option></select><i class="fa fa-trash"></i></div>').insertAfter( ".last" );
+      $('.last').removeClass('last');
+      $('.last1').removeClass('last1').addClass('last');
+    });
+    // var $trash = $('.fa-trash')
+    $(document).on('click', '.fa-trash', function()
+    {
+        $(this).closest("div").remove();
+        $( ".form-group:last").addClass('last');
+    });
+    $('.btn-primary').click(function(){
+      if(!confirm("ניתן לערוך את פרטי המשתמש פעם אחת ,האם לאשר?"))
+        return false;
+    });
+  </script>
+
+
+{% endblock %}

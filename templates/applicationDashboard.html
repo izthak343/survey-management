@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1>Application dashboard</h1>
+  <hr>
+  <table class="table">
+    {% for cat in category %}
+    <p><br></br></p>
+        <tr> <b>{{cat.name}} </b> </tr>
+      <tbody>
+        <table class="table table-striped">
+            <tr>
+              <td >Number</td>
+              <td >Name</td>
+              <td >Option</td>
+            </tr>
+            {% for application in applicationsByCatagorty %}
+              {% for app in application %}
+                  {% if app.categoryId == cat.id  %}
+                    <tr>
+                      <td>{{app.id}}</td>
+                      <td>{{app.falseName}}</td>
+                      <td>
+                        <a href="edit_application/{{app.id}}" class="btn btn-info pull-left" method="POST">Edit</a>
+                        <form action="{{url_for('delete_appliction', id=app.id)}}" method="POST">
+                          <input type="hidden" name="_method" value="DELETE">
+                          <input type="submit" value="Delete" class="btn btn-danger">
+                        </form>
+                      </td>
+                    </tr>
+                  {% endif %}
+              {% endfor %}
+            {% endfor %}
+          </table>
+      </tbody>
+      <a class="btn btn-success pull-right" href="add_application/{{cat.id}}" method="POST"> Add appliction</a>
+      {% endfor %}
+  </table>
+{% endblock %}
